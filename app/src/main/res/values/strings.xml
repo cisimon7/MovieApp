@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="overview_text">Rick is a mentally-unbalanced but scientifically-gifted old man who has recently reconnected with his family. He spends most of his time involving his young grandson Morty in dangerous, outlandish adventures throughout space and alternate universes. Compounded with Morty\'s already unstable family life, these events cause Morty much distress at home and school.</string>
+    <string name="sample_review">Rick and Morty is one of the only TV Shows in the history of TV which was made for smart-ass Dumb Science Loving Book-worms but ended up as a mainstream Fan Gatherer. It\'s pretty great how a show like this accomplished such greatness among the other Dumb hits. \n\nI really wouldn\'t believe any of my friends getting everything of it cause they always just seem bored when I start mumbling about Space, black-holes and stuff. Yeah, I really get pretty protective when it comes to Rick and Morty… duh.</string>
+    <string name="api_read_access_token">eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZTJhMWNiYTUwZDJmMjA5ZjgzZGJkN2FlZjFkNjE1ZSIsInN1YiI6IjYxMmYxZGYzNTA3MzNjMDA2MjBiYTE3MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FGetBlZCb6N7vRq0b5g3vCkcnrXv5gjioAckVmDgs-Y</string>
+    <string name="tmdbApiKey">"5e2a1cba50d2f209f83dbd7aef1d615e"</string>
+</resources>

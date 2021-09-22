@@ -1,0 +1,14 @@
+Desired functions for the client app:
+
+⁕ List of movies (logo, title, rating, year, director) - additional points if there's a search, filtering and sorting;
+⁕ Detailed information about one movie (cover, title, rating, year, cast etc.);
+⁕ Function of setting up a reminder about a specific movie at a specific time in the future in the form of a notification;
+⁕ Screen with the list of all the reminders set up at the moment;
+⁕ Light theme/ Dark theme;
+⁕ Display of the last data downloaded from cache, when there's no internet connection;
+⁕ Splash screen;
+⁕ Unit tests;
+⁕ Usage of custom view;
+⁕ Usage of animations;
+⁕ Up-to-date stack: kotlin, dagger / hilt, coroutine, etc.
+
