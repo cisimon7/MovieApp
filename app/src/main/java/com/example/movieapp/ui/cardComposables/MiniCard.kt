@@ -4,7 +4,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyListState
@@ -17,8 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -93,11 +94,30 @@ fun ListOfMiniCards(
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ShowCard(movieData: Movie, onClick: (Int) -> Unit) {
+
+    var isSelected by remember { mutableStateOf(false) }
+
+    fun Modifier.borderStyle() = when (isSelected) {
+        true -> this.border(
+            width = 2.dp,
+            color = colorByRating(movieData.vote_average).darken(0.5F),
+            shape = RoundedCornerShape(5.dp)
+        )
+        false -> this
+    }
+
     Card(
         modifier = Modifier
             .size(120.dp, 250.dp)
             .padding(3.dp)
-            .clickable { onClick(movieData.id) },
+            .borderStyle()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onDoubleTap = { },
+                    onLongPress = { isSelected = !isSelected },
+                    onTap = { onClick(movieData.id) }
+                )
+            },
         shape = RoundedCornerShape(5.dp),
         backgroundColor = Color.Transparent,
         elevation = 10.dp,
@@ -130,13 +150,7 @@ fun ShowCard(movieData: Movie, onClick: (Int) -> Unit) {
                         * Favorite (Love)
                         * Watchlist (Bookmark)
                         * Your rating (Star)*/
-                        Image(
-                            painter = painterResource(id = R.drawable.icons_more),
-                            contentDescription = "more button",
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clickable { }
-                        )
+                        Box(modifier = Modifier)
                     }
                 }
 

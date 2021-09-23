@@ -134,13 +134,6 @@ fun ReviewDiscussionDropDown(modifier: Modifier = Modifier) {
                     )
                 }
             )
-            /*Box(
-                Modifier
-                    .height(30.dp)
-                    .width(1.dp)
-                    .background(Color.Black.copy(alpha = 0.12F))
-                    .centreOffsetWithin(0.5F, 0.5F)
-            )*/
             Box(
                 modifier = Modifier
                     .layout { measurable, constraints ->

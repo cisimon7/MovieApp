@@ -37,7 +37,7 @@ val MovieAppTypography = Typography(
         fontSize = 16.sp
     ),
     body2 = TextStyle(
-        fontSize = 16.sp,
+        fontSize = 10.sp,
         fontWeight = FontWeight.Normal
     ),
     caption = TextStyle(

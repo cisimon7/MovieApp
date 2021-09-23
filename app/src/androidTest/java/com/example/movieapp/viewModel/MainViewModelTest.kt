@@ -9,7 +9,6 @@ import com.example.movieapp.di.appModule
 import com.example.movieapp.di.viewModelModule
 import com.example.movieapp.services.model.Movie
 import com.example.movieapp.services.model.sampleMovies
-import com.example.movieapp.services.repository.MovieApiResponse
 import com.example.movieapp.services.repository.localDb.MovieRoomDatabase
 import com.example.movieapp.services.repository.QueryStringDSL
 import com.example.movieapp.services.repository.remoteApi.TmdbService
@@ -58,32 +57,7 @@ class MainViewModelTest : KoinTest {
                 .setQueryExecutor(testDispatcher.asExecutor())
                 .build()
 
-        startKoin {
-            modules(appModule, viewModelModule,
-                module {
-                    single { database }
-                    single<TmdbService> {
-                        object : TmdbService(key, json, get(), get()) {
-
-                            override suspend fun getMovieDetailsById(movieId: Int): Movie {
-                                return httpClient.get<Movie>("https://getMovie")
-                            }
-
-                            override suspend fun discoverMovies(queryParameters: QueryStringDSL): List<Movie> {
-                                return httpClient.get<List<Movie>>("https://discover")
-                            }
-                        }
-                    }
-                    factory<HttpClient> {
-                        HttpClient(mockEngine) {
-                            install(JsonFeature) {
-                                serializer = KotlinxSerializer(json)
-                            }
-                        }
-                    }
-                }
-            )
-        }
+        startKoin { testModules(database) }
         viewModel = get()
     }
 
@@ -100,13 +74,11 @@ class MainViewModelTest : KoinTest {
     @Test
     fun getMovie() {
         runBlocking {
-            when (val response = viewModel.fetchMovieById(660).value) {
-                is MovieApiResponse.Success -> Log.i(
-                    "CISIMON7",
-                    json.encodeToString(Movie.serializer(), response.movie)
-                )
-                else -> Log.i("CISIMON7", "Error")
-            }
+            val response = viewModel.fetchMovieById(660)
+            Log.i(
+                "CISIMON7",
+                json.encodeToString(Movie.serializer(), response.value)
+            )
         }
     }
 
@@ -114,46 +86,9 @@ class MainViewModelTest : KoinTest {
     fun getMoviesList() {
         runBlocking {
             viewModel.fetchLatestMovies()
-            viewModel.movieList.value.forEach { response ->
-                when (response) {
-                    is MovieApiResponse.Success -> Log.i("CISIMON7",response.movie.title)
-                    else -> Log.i("CISIMON7", "Error")
-                }
-            }
-        }
-    }
-}
-
-private const val key = "5e2a1cba50d2f209f83dbd7aef1d615e"
-
-private val json = Json {
-    prettyPrint = true
-    isLenient = true
-    encodeDefaults = true
-    ignoreUnknownKeys = true
-}
-
-private val mockEngine = MockEngine { request ->
-    when {
-        request.url.host.contains("discover") -> {
-            respond(
-                content = json.encodeToString(
-                    ListSerializer(Movie.serializer()),
-                    sampleMovies
-                ),
-                status = HttpStatusCode.OK,
-                headersOf(HttpHeaders.ContentType, "application/json")
-            )
-        }
-        else -> {
-            respond(
-                content = json.encodeToString(
-                    Movie.serializer(),
-                    sampleMovies.first()
-                ),
-                status = HttpStatusCode.OK,
-                headersOf(HttpHeaders.ContentType, "application/json")
-            )
+            /*viewModel.movieList.value.forEach { response ->
+                Log.i("CISIMON7",response.movie.title)
+            }*/
         }
     }
 }

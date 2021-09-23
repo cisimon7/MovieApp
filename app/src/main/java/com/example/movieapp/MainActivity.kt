@@ -5,9 +5,9 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.lifecycle.lifecycleScope
@@ -17,11 +17,12 @@ import com.example.movieapp.databinding.ContentMainBinding
 import com.example.movieapp.services.ConnectionState
 import com.example.movieapp.services.observeConnectivityAsFlow
 import com.example.movieapp.ui.ConnectivityComposable
-import com.example.movieapp.ui.theme.MovieAppTheme
+import com.example.movieapp.ui.MovieAppScaffold
 import com.example.movieapp.viewModel.MainViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -42,16 +43,44 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 
-            val connectionState = viewModel.connectionState.collectAsState()
+            val scope = rememberCoroutineScope()
 
-            MovieAppTheme {
-                Surface(color = MaterialTheme.colors.background) {
+            val scaffoldState = rememberScaffoldState()
+
+            val navToHome: () -> Unit = {
+                findNavController().navigate(R.id.action_global_homeFragment)
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            }
+
+            val navToProfile: () -> Unit = {
+                findNavController().navigate(R.id.action_global_profileFragment)
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            }
+
+            val navToMovieList: () -> Unit = {
+                findNavController().navigate(R.id.action_global_movieListFragment)
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            }
+
+            MovieAppScaffold(
+                scaffoldState,
+                navToHome,
+                navToProfile,
+                navToMovieList,
+                content = {
                     Column(Modifier.fillMaxSize()) {
+                        val connectionState = viewModel.connectionState.collectAsState()
                         ConnectivityComposable(connectionState.value)
                         AndroidViewBinding(ContentMainBinding::inflate)
                     }
                 }
-            }
+            )
         }
     }
 

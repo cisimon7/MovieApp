@@ -37,15 +37,6 @@ fun DetailedCard(movieData: Movie) {
 
         val paddingValue = 15.dp
 
-        /*Image(
-            bitmap = ImageBitmap.imageResource(id = movieData.cover_path),
-            contentDescription = "Cover Image ${movieData.title}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                .clip(RoundedCornerShape(3.dp)),
-            contentScale = ContentScale.Crop
-        )*/
         Image(
             painter = rememberImagePainter (
                 data = movieData.cover_url,
