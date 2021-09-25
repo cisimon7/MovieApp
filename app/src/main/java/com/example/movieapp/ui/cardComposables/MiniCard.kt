@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,14 +33,14 @@ import coil.compose.rememberImagePainter
 import com.example.movieapp.R
 import com.example.movieapp.services.model.Movie
 import com.example.movieapp.services.model.sampleMovies
+import com.example.movieapp.ui.modifierExtensions.GlassyBox
 import com.example.movieapp.ui.modifierExtensions.MiniCardLayout
+import com.example.movieapp.ui.theme.MovieAppColors
+import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.MovieAppTypography
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
 
-
-/*Features to add
-* * onLong press, display tagline and below display display overview details*/
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -55,14 +56,11 @@ fun ListOfMiniCards(
 
     movieListItems.apply {
         var isUpdating by remember { mutableStateOf(false) }
-        when {
-            loadState.refresh is LoadState.Loading -> {
-                Text(text = "Refreshing", style = MovieAppTypography.h6)
-            }
-            loadState.append !is LoadState.Loading -> {
+        when (loadState.append) {
+            !is LoadState.Loading -> {
                 isUpdating = false
             }
-            loadState.append is LoadState.Loading -> {
+            is LoadState.Loading -> {
                 if (!isUpdating) addMoreOnScrollEndFun()
                 true.also { isUpdating = it }
                 Text(text = "Loading", style = MovieAppTypography.h6)
@@ -80,10 +78,13 @@ fun ListOfMiniCards(
                 movieListItems.itemCount != 0 -> {
                     items(movieListItems.itemCount) { movie_index ->
                         movieListItems[movie_index]
-                            ?.let { ShowCard(it, displayMovieDetails) }
+                            ?.let {
+                                ShowCard(it, displayMovieDetails)
+                            }
                     }
                 }
                 else -> {
+
                 }
             }
         }
@@ -109,7 +110,7 @@ fun ShowCard(movieData: Movie, onClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .size(120.dp, 250.dp)
-            .padding(3.dp)
+            .padding(5.dp)
             .borderStyle()
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -120,68 +121,71 @@ fun ShowCard(movieData: Movie, onClick: (Int) -> Unit) {
             },
         shape = RoundedCornerShape(5.dp),
         backgroundColor = Color.Transparent,
-        elevation = 10.dp,
+        elevation = 0.dp,
         content = {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(color = Color.White)
-            ) {
+            GlassyBox(modifier = Modifier.fillMaxSize(), murkiness = 0.5F) {
+                Column(Modifier.fillMaxSize().padding(3.dp)) {
 
-                Box(modifier = Modifier.weight(0.9F)) {
-                    MiniCardLayout(Modifier) {
-                        Image(
-                            painter = rememberImagePainter(
-                                data = movieData.cover_url,
-                                builder = {
-                                    placeholder(R.drawable.image_placeholder_1)
-                                }
-                            ),
-                            contentDescription = "Cover Image ${movieData.title}",
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(3.dp))
-                                .background(Color(0xFFE5E8E8)),
-                            contentScale = ContentScale.Crop
-                        )
-                        RatingCircleItem(movieData.vote_average, Modifier.size(40.dp))
-                        /*
-                        * more options:
-                        * Add to List (List)
-                        * Favorite (Love)
-                        * Watchlist (Bookmark)
-                        * Your rating (Star)*/
-                        Box(modifier = Modifier)
+                    Box(modifier = Modifier.weight(0.9F)) {
+                        MiniCardLayout(Modifier.background(Color.Transparent)) {
+                            Image(
+                                painter = rememberImagePainter(
+                                    data = movieData.cover_url,
+                                    builder = {
+                                        placeholder(R.drawable.image_placeholder_1)
+                                    }
+                                ),
+                                contentDescription = "Cover Image ${movieData.title}",
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(3.dp))
+                                    .background(Color.Transparent),
+                                contentScale = ContentScale.Crop
+                            )
+                            RatingCircleItem(movieData.vote_average, Modifier.size(40.dp))
+                            /*
+                            * more options:
+                            * Add to List (List)
+                            * Favorite (Love)
+                            * Watchlist (Bookmark)
+                            * Your rating (Star)*/
+                            Box(Modifier.background(Color.Transparent)) {}
+                        }
                     }
-                }
 
-                Column(
-                    Modifier
-                        .padding(5.dp)
-                        .weight(0.2F)
-                ) {
-                    Text(
-                        text = movieData.title,
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        fontSize = 10.sp,
-                        style = MovieAppTypography.h3
-                    )
-                    Text(
-                        text = movieData.release_date.toString(),
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        fontSize = 7.sp,
-                        color = Color.Gray,
-                        style = MovieAppTypography.h5
-                    )
+                    Column(
+                        Modifier
+                            .padding(5.dp)
+                            .weight(0.2F)
+                    ) {
+                        Text(
+                            text = movieData.title,
+                            softWrap = false,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            fontSize = 10.sp,
+                            style = MovieAppTypography.h3,
+                            color = MovieAppTheme.colors.secondary1
+                        )
+                        Text(
+                            text = movieData.release_date.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            fontSize = 7.sp,
+                            color = MovieAppTheme.colors.secondary2,
+                            style = MovieAppTypography.h5
+                        )
+                    }
                 }
             }
         }
     )
 }
 
-@Preview
+@Preview(showBackground = true, backgroundColor = 0xFF2ECC71)
 @Composable
 fun ShowCardPreview() {
-    ShowCard(sampleMovies.first()) { }
+    GlassyBox(modifier = Modifier, murkiness = 0.75F, cornerRadius = 5.dp) {
+        ShowCard(sampleMovies.first()) { }
+    }
 }

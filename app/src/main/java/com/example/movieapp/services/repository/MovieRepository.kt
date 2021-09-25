@@ -23,13 +23,17 @@ class MovieRepository(
 
     suspend fun getMovieDetails(movieId: Int): Movie {
         runCatching { tmdbService.getMovieDetailsById(movieId) }
-            .onSuccess { movieDetailed ->
-                movieRoomDb.movieDao().updateMovie(movieDetailed)
+            .onSuccess { movie ->
+                val movieFromDb = movieRoomDb.movieDao().getMovieDetailsById(movieId)
+                movieFromDb.update(movie)
+                movieRoomDb.movieDao().updateMovie(movieFromDb)
             }.onFailure { error ->
                 Log.e("MovieAppErrorMessage", "Error: ${error.message ?: "error"}")
             }
         /* Database is the single source of truth */
-        return movieRoomDb.movieDao().getMovieDetailsById(movieId)
+        return movieRoomDb.movieDao().getMovieDetailsById(movieId).let { movie ->
+            movie
+        }
     }
 
     @OptIn(ExperimentalPagingApi::class)

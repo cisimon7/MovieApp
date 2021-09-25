@@ -1,5 +1,6 @@
 package com.example.movieapp.ui.detailedCardFragment
 
+import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,9 @@ import coil.compose.rememberImagePainter
 import com.example.movieapp.R
 import com.example.movieapp.services.model.Movie
 import com.example.movieapp.ui.cardComposables.RatingCircleItem
+import com.example.movieapp.ui.modifierExtensions.GlassyBox
+import com.example.movieapp.ui.modifierExtensions.dividerColor
+import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.MovieAppTypography
 
 @OptIn(ExperimentalCoilApi::class)
@@ -38,7 +42,7 @@ fun DetailedCard(movieData: Movie) {
         val paddingValue = 15.dp
 
         Image(
-            painter = rememberImagePainter (
+            painter = rememberImagePainter(
                 data = movieData.cover_url,
                 builder = {
                     placeholder(R.drawable.image_placeholder_1)
@@ -48,79 +52,92 @@ fun DetailedCard(movieData: Movie) {
             contentDescription = "Cover Image ${movieData.title}",
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFFE5E8E8))
+                .padding(10.dp)
+                .background(Color.Transparent)
                 .height(500.dp)
-                .clip(RoundedCornerShape(3.dp)),
+                .clip(RoundedCornerShape(5.dp)),
             contentScale = ContentScale.Crop
         )
 
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(paddingValue)
+                .padding(paddingValue),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
                 text = "${movieData.title} (${movieData.release_date.year})",
                 modifier = Modifier.fillMaxWidth(),
-                style = MovieAppTypography.h4
+                style = MovieAppTypography.h4,
+                color = MovieAppTheme.colors.secondary1
             )
             Text(
-                text = movieData.genres.joinToString(", "),
+                text = movieData.genres.toString(),
                 modifier = Modifier.fillMaxWidth(),
-                color = Color.Gray,
-                style = MovieAppTypography.h6
+                style = MovieAppTypography.h6,
+                color = MovieAppTheme.colors.secondary2
             )
         }
 
-        Divider()
+        Divider(modifier = Modifier.padding(10.dp), color = dividerColor)
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(paddingValue),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(Modifier, verticalAlignment = Alignment.CenterVertically) {
-                RatingCircleItem(movieData.vote_average, Modifier.size(60.dp))
-                Spacer(modifier = Modifier.padding(5.dp))
-                Text(text = "User\nScore", style = MovieAppTypography.h5)
-            }
-            FavoriteIcon()
-            Icon(
-                painter = painterResource(id = R.drawable.icons_bookmark),
-                contentDescription = "Bookmark",
-                modifier = Modifier.size(30.dp),
-                tint = Color.Black
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.icons_list_52px),
-                contentDescription = "Options",
-                modifier = Modifier.size(30.dp),
-                tint = Color.Black
-            )
-        }
-
-        Divider()
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(paddingValue)
-        ) {
-            Text(
-                text = "Overview",
+        DetailedCardGlassy {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 3.dp),
-                style = MovieAppTypography.h5
-            )
-            Text(
-                text = movieData.overview,
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.Black,
-                style = MovieAppTypography.body1
-            )
+                    .padding(paddingValue),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(Modifier, verticalAlignment = Alignment.CenterVertically) {
+                    RatingCircleItem(movieData.vote_average, Modifier.size(60.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
+                    Text(
+                        text = "User\nScore",
+                        style = MovieAppTypography.h6,
+                        color = MovieAppTheme.colors.secondary1
+                    )
+                }
+                FavoriteIcon()
+                Icon(
+                    painter = painterResource(id = R.drawable.icons_bookmark),
+                    contentDescription = "Bookmark",
+                    modifier = Modifier.size(30.dp),
+                    tint = Color.Black
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.icons_list_52px),
+                    contentDescription = "Options",
+                    modifier = Modifier.size(30.dp),
+                    tint = Color.Black
+                )
+            }
+        }
+
+        Divider(modifier = Modifier.padding(horizontal = 10.dp), color = dividerColor)
+
+        DetailedCardGlassy {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = paddingValue)
+            ) {
+                Text(
+                    text = "Overview",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                    style = MovieAppTypography.h6,
+                    color = MovieAppTheme.colors.secondary1,
+                )
+                Text(
+                    text = movieData.overview,
+                    modifier = Modifier.fillMaxWidth().padding(10.dp),
+                    color = MovieAppTheme.colors.secondary2,
+                    style = MovieAppTypography.body1
+                )
+            }
         }
 
         ReviewDiscussionDropDown(
@@ -134,6 +151,19 @@ fun DetailedCard(movieData: Movie) {
         )
     }
 
+}
+
+@Composable
+fun DetailedCardGlassy(content: @Composable BoxScope.() -> Unit) {
+    GlassyBox(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
+        murkiness = 0.5F,
+        cornerRadius = 5.dp,
+        color = MovieAppTheme.colors.primary1,
+        content = content
+    )
 }
 
 @Composable

@@ -56,8 +56,8 @@ class MovieRepositoryTest {
     @Test
     fun getListOfMovies(): Unit = runBlocking {
         val movies = repositoryTest.discoverMovies(QueryStringDSL())
-        println(movies.first())
-        println(movies.last())
+        /*println(movies.first())
+        println(movies.last())*/
     }
 
     @Test

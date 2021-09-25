@@ -6,35 +6,36 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.fancyColors
-import kotlinx.coroutines.launch
 
 @Composable
 fun MovieAppScaffold(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navToHome: () -> Unit,
-    navToProfile: () -> Unit,
-    navToMovieList: () -> Unit,
+    topBar: @Composable () -> Unit = {},
+    drawerContent: @Composable (ColumnScope.() -> Unit),
     content: @Composable (PaddingValues) -> Unit,
 ) {
 
-    val scope = rememberCoroutineScope()
-
-    val onNavIconPressed: () -> Unit = { scope.launch { scaffoldState.drawerState.open() } }
-
     MovieAppTheme {
-        Surface(color = MaterialTheme.colors.background) {
-            Scaffold(
-                scaffoldState = scaffoldState,
-                topBar = { MovieAppBar(onNavIconPressed) },
-                drawerContent = { MovieAppDrawer(navToHome, navToProfile, navToMovieList) },
-                content = content
-            )
-        }
+        Scaffold(
+            modifier = Modifier.background(
+                brush = MovieAppTheme.colors.overlayBrush
+            ),
+            scaffoldState = scaffoldState,
+            topBar = topBar,
+            drawerContent = drawerContent,
+            drawerBackgroundColor = Color.White,
+            /*drawerContentColor = MovieAppTheme.colors.background,*/
+            drawerScrimColor = Color.Transparent,
+            backgroundColor = Color.Transparent,
+            /*contentColor = MovieAppTheme.colors.background,*/
+            content = content
+        )
     }
 }
 

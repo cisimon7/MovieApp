@@ -15,7 +15,7 @@ data class Movie(
     val cover_url: String,
     val tagline: String,
     val overview: String,
-    val genres: List<String> = emptyList(),
+    var genres: List<String> = emptyList(),
     val release_date: LocalDate,
     val vote_average: Float,
     val vote_count: Int,
@@ -25,7 +25,11 @@ data class Movie(
     val budget: Int,
     val adult: Boolean,
     val status: Status
-)
+) {
+    fun update(other: Movie) {
+        this.genres = other.genres
+    }
+}
 
 @Entity(
     tableName = "images_table",

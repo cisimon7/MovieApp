@@ -15,16 +15,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
+import com.example.movieapp.ui.modifierExtensions.glassiness
+import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.MovieAppTypography
 
 @Composable
 fun MovieAppBar(onNavIconPressed: () -> Unit = { }) {
-    val backgroundColor = MaterialTheme.colors.background
     Column(
-        Modifier.background(backgroundColor.copy(alpha = 0.95f))
+        Modifier
     ) {
         TopAppBar(
-            modifier = Modifier,
+            modifier = Modifier.glassiness(0.8F),
             backgroundColor = Color.Transparent,
             elevation = 0.dp,
             contentColor = MaterialTheme.colors.onSurface,
@@ -38,7 +39,8 @@ fun MovieAppBar(onNavIconPressed: () -> Unit = { }) {
             title = {
                 Text(
                     text = "Section Title",
-                    style = MovieAppTypography.h5
+                    style = MovieAppTypography.h5,
+                    color = MovieAppTheme.colors.secondary1
                 )
             },
             navigationIcon = {

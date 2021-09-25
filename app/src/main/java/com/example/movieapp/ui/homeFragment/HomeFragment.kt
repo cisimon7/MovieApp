@@ -4,17 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.OutlinedButton
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -22,7 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.movieapp.ui.cardComposables.ListOfMiniCards
-import com.example.movieapp.ui.theme.MovieAppTypography
+import com.example.movieapp.ui.modifierExtensions.GlassyBox
+import com.example.movieapp.ui.theme.*
 import com.example.movieapp.viewModel.MainViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -63,22 +59,22 @@ class HomeFragment : Fragment() {
 
         setContent {
             Column {
-                OutlinedButton(
-                    onClick = { },
-                    enabled = false,
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color.Black.copy(alpha = 0.12F),
-                            shape = RoundedCornerShape(5.dp)
-                        )
-                        .fillMaxWidth(),
+
+                GlassyBox(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    0.7F,
+                    5.dp,
+                    MovieAppTheme.colors.primary2
                 ) {
                     Text(
                         text = "Popular Movies",
+                        modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp),
                         textAlign = TextAlign.Center,
-                        style = MovieAppTypography.h6
+                        style = MovieAppTypography.h5,
+                        fontWeight = FontWeight.Bold,
+                        color = MovieAppTheme.colors.secondary2
                     )
                 }
 

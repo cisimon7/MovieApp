@@ -66,10 +66,13 @@ class MovieRoomDatabaseTest {
         /*input sample movie is same as sampleMovies[1]*/
 
         val movie: Movie = sampleMovies[1]
+        val updatedMovie = movie.copy(genres = movie.genres+"Dramaaaa")
 
         movieDao.getMovieDetailsById(movie.id)
+        movieDao.updateMovie(updatedMovie)
         val movieById = movieDao.getMovieDetailsById(movieId = movie.id)
 
-        assertEquals(movieById, movie)
+//        assertEquals(movieById, movie)
+        assertEquals(movieById, updatedMovie)
     }
 }

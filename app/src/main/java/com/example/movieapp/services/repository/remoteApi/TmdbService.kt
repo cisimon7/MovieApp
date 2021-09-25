@@ -2,6 +2,7 @@
 
 package com.example.movieapp.services.repository.remoteApi
 
+import android.util.Log
 import com.example.movieapp.services.model.Movie
 import com.example.movieapp.services.model.MovieBrief
 import com.example.movieapp.services.model.MovieDetailed
@@ -66,7 +67,7 @@ abstract class TmdbService(
         return movieDetailed.format().copy(
             cover_url = getImageUrl(ImageType.ProfileImage, movieDetailed.poster_path),
             backdrop_url = getImageUrl(ImageType.BackdropImage, movieDetailed.backdrop_path)
-        )
+        ).let { Log.i("CISIMON7", it.toString()); it }
     }
 
     open suspend fun discoverMovies(queryParameters: QueryStringDSL): List<Movie> {

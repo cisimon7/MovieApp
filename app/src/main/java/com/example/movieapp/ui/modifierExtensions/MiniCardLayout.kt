@@ -1,9 +1,19 @@
 package com.example.movieapp.ui.modifierExtensions
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Card
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.dp
+import com.example.movieapp.ui.cardComposables.RatingCircleItem
+import com.example.movieapp.ui.theme.MovieAppTypography
 
 @Composable
 fun MiniCardLayout(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
@@ -30,6 +40,24 @@ fun MiniCardLayout(modifier: Modifier = Modifier, content: @Composable () -> Uni
                 imgPlaceable.width - (1.25 * optionsPlaceable.width).toInt(),
                 (0.25 * optionsPlaceable.width).toInt()
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ShowMiniCardLayout() {
+    Card(Modifier, backgroundColor = Color.Transparent) {
+        MiniCardLayout(Modifier) {
+            Box(
+                Modifier
+                    .size(100.dp)
+                    .background(Color.White.copy(alpha = 0.5F))) { }
+            RatingCircleItem(78F, Modifier.size(200.dp))
+            Box(
+                Modifier
+                    .size(100.dp)
+                    .background(Color.Red)) { }
         }
     }
 }
