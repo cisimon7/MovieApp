@@ -1,4 +1,4 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.scaffoldComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,7 +19,6 @@ import com.example.movieapp.R
 import com.example.movieapp.ui.modifierExtensions.dividerColor
 import com.example.movieapp.ui.modifierExtensions.glassiness
 import com.example.movieapp.ui.theme.MovieAppColors
-import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.MovieAppTypography
 import com.google.accompanist.insets.statusBarsHeight
 
@@ -29,14 +28,11 @@ fun MovieAppDrawer(
     navToHome: () -> Unit,
     navToProfile: () -> Unit,
     navToMovieList: () -> Unit,
+    navToReminderList: () -> Unit,
     changeThemeColorTo: (MovieAppColors) -> Unit
 ) {
 
-    Column(
-        Modifier
-            .padding(3.dp)
-            .fillMaxSize()
-            .glassiness(0.7F)) {
+    Column(Modifier.padding(3.dp).fillMaxSize().glassiness(0.7F)) {
         Spacer(modifier = Modifier.statusBarsHeight())
         DrawerTitle()
         Divider(color = dividerColor)
@@ -46,7 +42,7 @@ fun MovieAppDrawer(
         Divider(color = dividerColor)
         DrawerItem(navToMovieList, "Saved Movies", "Reference to movies interested in")
         Divider(color = dividerColor)
-        DrawerItem({}, "Lorem ipsum", "consectetur adipiscing elit")
+        DrawerItem(navToReminderList, "Reminders", "List of movies saved for later")
         Divider(color = dividerColor)
         DrawerItem({}, "Massa placerat", "Magna eget est lorem ipsum dolor")
         Divider(color = dividerColor)

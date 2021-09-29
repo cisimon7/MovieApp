@@ -93,7 +93,7 @@ abstract class TmdbService(
     }
 
     companion object {
-        const val items_per_page = 30
+        var items_per_page = 61
     }
 }
 

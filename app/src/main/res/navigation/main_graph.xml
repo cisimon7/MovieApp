@@ -8,12 +8,18 @@
     <action
         android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"/>
+
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"/>
+
     <action
         android:id="@+id/action_global_movieListFragment"
         app:destination="@id/movieListFragment"/>
+
+    <action
+        android:id="@+id/action_global_reminderFragment"
+        app:destination="@id/reminderFragment"/>
 
 
     <fragment
@@ -55,5 +61,15 @@
         android:id="@+id/movieListFragment"
         android:name="com.example.movieapp.MovieListFragment"
         android:label="fragment_movie_list"
-        tools:layout="@layout/fragment_movie_list" />
+        tools:layout="@layout/fragment_movie_list" >
+        <action
+            android:id="@+id/action_movieListFragment_to_detailedCardFragment"
+            app:destination="@id/detailedCardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reminderFragment"
+        android:name="com.example.movieapp.ReminderFragment"
+        android:label="fragment_reminder"
+        tools:layout="@layout/fragment_reminder" />
 </navigation>

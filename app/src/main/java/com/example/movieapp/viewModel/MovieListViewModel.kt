@@ -11,7 +11,7 @@ import com.example.movieapp.services.repository.QueryStringDSL
 import com.example.movieapp.services.repository.remoteApi.SortProperty
 import kotlinx.coroutines.flow.*
 
-class MainViewModel(private val repository: MovieRepository) : ViewModel() {
+class MovieListViewModel(private val repository: MovieRepository) : ViewModel() {
 
     var connectionState: MutableStateFlow<ConnectionState> =
         MutableStateFlow(ConnectionState.Unavailable)

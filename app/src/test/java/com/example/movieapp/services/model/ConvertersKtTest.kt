@@ -1,12 +1,15 @@
 package com.example.movieapp.services.model
 
-import kotlinx.datetime.LocalDate
+import com.example.movieapp.timeLeftFormatter
+import junit.framework.Assert.assertEquals
+import kotlinx.datetime.*
 import org.junit.Test
-import kotlin.test.assertEquals
+import kotlin.random.Random
+
 
 class ConvertersKtTest {
 
-    val converters = Converters()
+    private val converters = Converters()
 
     @Test
     fun dateConverters() {
@@ -24,5 +27,23 @@ class ConvertersKtTest {
         println(stringList)
         println(listString.toString())
         assertEquals(genres, listString)
+    }
+
+    @Test
+    fun randomDate() {
+
+        val tz = TimeZone.currentSystemDefault()
+        val rndDate = Instant.fromEpochMilliseconds(
+            Random.nextLong(
+                LocalDateTime(2021, 9, 27, 0, 0, 0, 0)
+                    .toInstant(tz).toEpochMilliseconds(),
+                LocalDateTime(2021, 10, 30, 0, 0, 0, 0)
+                    .toInstant(tz).toEpochMilliseconds()
+            )
+        ).toLocalDateTime(tz)
+
+        val now = Clock.System.now()
+
+        println(timeLeftFormatter(now - rndDate.toInstant(tz)))
     }
 }

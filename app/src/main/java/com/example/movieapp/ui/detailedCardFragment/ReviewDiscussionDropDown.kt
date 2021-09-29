@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movieapp.R
 import com.example.movieapp.ui.modifierExtensions.centreOffsetWithin
+import com.example.movieapp.ui.modifierExtensions.pxToDp
 import com.example.movieapp.ui.theme.MovieAppTypography
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -92,38 +92,33 @@ fun ReviewDiscussionDropDown(modifier: Modifier = Modifier) {
                 )
                 .padding(10.dp)
         ) {
-
             Box(
-                modifier = Modifier
-                    .layout { measurable, constraints ->
+                modifier = Modifier.layout { measurable, constraints ->
 
-                        val (parentWidth, parentHeight) = with(constraints) { maxWidth to maxHeight }
+                    val (parentWidth, parentHeight) = with(constraints) { maxWidth to maxHeight }
 
-                        val placeable = measurable.measure(constraints)
-                        dimension1 = with(placeable) { IntSize(width, height) }
+                    val placeable = measurable.measure(constraints)
+                    dimension1 = with(placeable) { IntSize(width, height) }
 
-                        val xPos = (parentWidth * 0.25) - (placeable.width * 0.5)
-                        val yPos = 0
-                        position1 = Offset(xPos.toFloat(), placeable.height.toFloat())
+                    val xPos = (parentWidth * 0.25) - (placeable.width * 0.5)
+                    val yPos = 0
+                    position1 = Offset(xPos.toFloat(), placeable.height.toFloat())
 
-                        layout(placeable.width, placeable.height) {
-                            placeable.place(xPos.toInt(), yPos)
-                        }
-                    },
+                    layout(placeable.width, placeable.height) {
+                        placeable.place(xPos.toInt(), yPos)
+                    }
+                },
                 content = {
                     Text(
                         text = "Reviews (114)",
-                        modifier = Modifier
-                            .clickable {
-                                when (reviewOrDiscussion.value) {
-                                    ReviewOrDiscussion.Review -> {
-                                        reviewOrDiscussion.value = ReviewOrDiscussion.None
-                                    }
-                                    else -> {
-                                        reviewOrDiscussion.value = ReviewOrDiscussion.Review
-                                    }
+                        modifier = Modifier.clickable {
+                            when (reviewOrDiscussion.value) {
+                                ReviewOrDiscussion.Review -> {
+                                    reviewOrDiscussion.value = ReviewOrDiscussion.None
                                 }
-                            },
+                                else -> { reviewOrDiscussion.value = ReviewOrDiscussion.Review }
+                            }
+                        },
                         style = MovieAppTypography.h6,
                         color = Color.Black.copy(
                             alpha = when (reviewOrDiscussion.value) {
@@ -135,37 +130,35 @@ fun ReviewDiscussionDropDown(modifier: Modifier = Modifier) {
                 }
             )
             Box(
-                modifier = Modifier
-                    .layout { measurable, constraints ->
+                modifier = Modifier.layout { measurable, constraints ->
 
-                        val (parentWidth, _) = with(constraints) { maxWidth to maxHeight }
+                    val (parentWidth, _) = with(constraints) { maxWidth to maxHeight }
 
-                        val placeable = measurable.measure(constraints)
-                        dimension2 = with(placeable) { IntSize(width, height) }
+                    val placeable = measurable.measure(constraints)
+                    dimension2 = with(placeable) { IntSize(width, height) }
 
-                        val xPos = (parentWidth * 0.75) - (placeable.width * 0.5)
-                        val yPos = 0
+                    val xPos = (parentWidth * 0.75) - (placeable.width * 0.5)
+                    val yPos = 0
 
-                        position2 = Offset(xPos.toFloat(), placeable.height.toFloat())
+                    position2 = Offset(xPos.toFloat(), placeable.height.toFloat())
 
-                        layout(placeable.width, placeable.height) {
-                            placeable.place(xPos.toInt(), yPos)
-                        }
-                    },
+                    layout(placeable.width, placeable.height) {
+                        placeable.place(xPos.toInt(), yPos)
+                    }
+                },
                 content = {
                     Text(
                         text = "Discussion (1028)",
-                        modifier = Modifier
-                            .clickable {
-                                when (reviewOrDiscussion.value) {
-                                    ReviewOrDiscussion.Discussion -> {
-                                        reviewOrDiscussion.value = ReviewOrDiscussion.None
-                                    }
-                                    else -> {
-                                        reviewOrDiscussion.value = ReviewOrDiscussion.Discussion
-                                    }
+                        modifier = Modifier.clickable {
+                            when (reviewOrDiscussion.value) {
+                                ReviewOrDiscussion.Discussion -> {
+                                    reviewOrDiscussion.value = ReviewOrDiscussion.None
                                 }
-                            },
+                                else -> {
+                                    reviewOrDiscussion.value = ReviewOrDiscussion.Discussion
+                                }
+                            }
+                        },
                         style = MovieAppTypography.h6,
                         color = Color.Black.copy(
                             alpha = when (reviewOrDiscussion.value) {
@@ -409,132 +402,3 @@ fun StarRatingItem(modifier: Modifier = Modifier) {
         )
     }
 }
-
-/*@Preview
-@Composable
-fun ReviewDropDownPreview() {
-    ReviewDiscussionDropDown()
-}*/
-
-@Preview
-@Composable
-fun AnimationTest() {
-    var position1 by remember { mutableStateOf(Offset.Zero) }
-    var position2 by remember { mutableStateOf(Offset.Zero) }
-
-    var dimension1 by remember { mutableStateOf(IntSize.Zero) }
-    var dimension2 by remember { mutableStateOf(IntSize.Zero) }
-
-    val reviewOrDiscussion: MutableState<ReviewOrDiscussion> = remember {
-        mutableStateOf(ReviewOrDiscussion.None)
-    }
-
-    val transition = updateTransition(reviewOrDiscussion.value, label = "")
-    val aniPosition = transition.animateOffset(
-        transitionSpec = {
-            spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessLow
-            )
-        },
-        label = "",
-        targetValueByState = { state: ReviewOrDiscussion ->
-            when (state) {
-                ReviewOrDiscussion.None -> Offset.Zero
-                ReviewOrDiscussion.Review -> position1
-                ReviewOrDiscussion.Discussion -> position2
-            }
-        }
-    )
-    val aniDimension = transition.animateIntSize(
-        transitionSpec = {
-            spring(stiffness = Spring.StiffnessLow)
-        },
-        label = "",
-        targetValueByState = { state: ReviewOrDiscussion ->
-            when (state) {
-                ReviewOrDiscussion.None -> IntSize.Zero
-                ReviewOrDiscussion.Review -> dimension1
-                ReviewOrDiscussion.Discussion -> dimension2
-            }
-        }
-    )
-
-    Box(modifier = Modifier.fillMaxWidth()) {
-
-        Box(
-            modifier = Modifier
-                .layout { measurable, constraints ->
-
-                    val (parentWidth, parentHeight) = with(constraints) { maxWidth to maxHeight }
-
-                    val placeable = measurable.measure(constraints)
-                    dimension1 = with(placeable) { IntSize(width, height) }
-
-                    val xPos = (parentWidth * 0.25) - (placeable.width * 0.5)
-                    val yPos = 0
-                    position1 = Offset(xPos.toFloat(), placeable.height.toFloat())
-
-                    layout(placeable.width, placeable.height) {
-                        placeable.place(xPos.toInt(), yPos)
-                    }
-                },
-            content = {
-                Text(
-                    text = "Review",
-                    style = MovieAppTypography.h4,
-                    modifier = Modifier
-                        .clickable {
-                            reviewOrDiscussion.value = ReviewOrDiscussion.Review
-                        }
-                )
-            }
-        )
-
-        Box(
-            modifier = Modifier
-                .layout { measurable, constraints ->
-
-                    val (parentWidth, parentHeight) = with(constraints) { maxWidth to maxHeight }
-
-                    val placeable = measurable.measure(constraints)
-                    dimension2 = with(placeable) { IntSize(width, height) }
-
-                    val xPos = (parentWidth * 0.75) - (placeable.width * 0.5)
-                    val yPos = 0
-
-                    position2 = Offset(xPos.toFloat(), placeable.height.toFloat())
-
-                    layout(placeable.width, placeable.height) {
-                        placeable.place(xPos.toInt(), yPos)
-                    }
-                },
-            content = {
-                Text(
-                    text = "Discussion",
-                    style = MovieAppTypography.h4,
-                    modifier = Modifier
-                        .clickable {
-                            reviewOrDiscussion.value = ReviewOrDiscussion.Discussion
-                        }
-                )
-            }
-        )
-
-        val positionDp = aniPosition.value.pxToDp()
-        val dimensionDp = aniDimension.value.pxToDp()
-
-        Box(
-            modifier = Modifier
-                .offset(positionDp.first, positionDp.second - 3.dp)
-                .size(dimensionDp.first, 3.dp)
-                .background(Color.Blue, shape = RoundedCornerShape(5.dp))
-        )
-    }
-}
-
-@Composable
-private fun Offset.pxToDp() = with(LocalDensity.current) { x.toDp() to y.toDp() }
-
-@Composable
-private fun IntSize.pxToDp() = with(LocalDensity.current) { width.toDp() to height.toDp() }

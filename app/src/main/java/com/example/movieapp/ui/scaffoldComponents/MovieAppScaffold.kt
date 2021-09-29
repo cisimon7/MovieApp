@@ -1,4 +1,4 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.scaffoldComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,10 +7,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.ui.theme.MovieAppTheme
+import com.example.movieapp.ui.theme.MovieAppColorTheme
 import com.example.movieapp.ui.theme.fancyColors
 
 @Composable
@@ -24,7 +24,7 @@ fun MovieAppScaffold(
     MovieAppTheme {
         Scaffold(
             modifier = Modifier.background(
-                brush = MovieAppTheme.colors.overlayBrush
+                brush = MovieAppColorTheme.colors.overlayBrush
             ),
             scaffoldState = scaffoldState,
             topBar = topBar,

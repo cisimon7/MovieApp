@@ -2,6 +2,7 @@ package com.example.movieapp.services.model
 
 import androidx.room.*
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Entity(
@@ -45,4 +46,13 @@ data class MovieImages(
 data class MovieAndImages(
     @Embedded val movie: Movie,
     @Relation(parentColumn = "cover_url", entityColumn = "cover_url") val movieImages: MovieImages
+)
+
+
+/*
+* I could use just movie id and reminder date to create a new table to save space and avoid
+* duplication*/
+data class MovieWithReminder(
+    val movie: Movie,
+    val reminderDate: LocalDateTime
 )

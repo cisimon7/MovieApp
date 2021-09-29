@@ -9,19 +9,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.movieapp.ui.theme.MovieAppTheme
+import com.example.movieapp.ui.theme.MovieAppColorTheme
 
 @Composable
 fun GlassyBox(
     modifier: Modifier = Modifier,
     murkiness: Float = 0.0F,
     cornerRadius: Dp = 0.dp,
-    color: Color = MovieAppTheme.colors.glassColor,
+    color: Color = MovieAppColorTheme.colors.glassColor,
     content: @Composable BoxScope.() -> Unit
 ) {
 
     val transparency = when (color) {
-        Color.Black -> 1-murkiness
+        Color.Black -> 1 - murkiness
         else -> murkiness
     }
 
@@ -36,19 +36,23 @@ fun GlassyBox(
 }
 
 @Composable
-fun Modifier.glassiness(murkiness: Float, cornerRadius: Dp = 0.dp): Modifier {
-    val transparency = when (MovieAppTheme.colors.glassColor) {
-        Color.Black -> 1-murkiness
+fun Modifier.glassiness(
+    murkiness: Float,
+    cornerRadius: Dp = 0.dp,
+    glassColor: Color = MovieAppColorTheme.colors.glassColor
+): Modifier {
+    val transparency = when (glassColor) {
+        Color.Black -> 1 - murkiness
         else -> murkiness
     }
     return this.background(
-        Color.Black.copy(alpha = transparency),
+        glassColor.copy(alpha = transparency),
         shape = RoundedCornerShape(cornerRadius)
     )
 }
 
 val dividerColor: Color
-    @Composable get() = when (MovieAppTheme.colors.glassColor) {
-    Color.Black -> Color.White.copy(alpha = 0.3f)
-    else -> Color.Black.copy(alpha = 0.3f)
-}
+    @Composable get() = when (MovieAppColorTheme.colors.glassColor) {
+        Color.Black -> Color.White.copy(alpha = 0.3f)
+        else -> Color.Black.copy(alpha = 0.3f)
+    }

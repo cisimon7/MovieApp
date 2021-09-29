@@ -1,9 +1,10 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.generalComponents
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -25,61 +26,96 @@ import kotlinx.coroutines.delay
 @Composable
 fun ConnectivityComposable(connectivityState: ConnectionState) {
 
-    when (connectivityState) {
-        ConnectionState.Available -> {
-            var visibility by remember { mutableStateOf(true) }
+    var visibility by remember { mutableStateOf(true) }
 
-            LaunchedEffect(key1 = Unit) {
-                delay(1_000)
-                visibility = false
-            }
+    val hide = { visibility = false }
 
-            AnimatedVisibility(visible = visibility) {
-                ConnectivityOnline()
+    AnimatedVisibility(visible = visibility) {
+        when (connectivityState) {
+            ConnectionState.Available -> {
+                LaunchedEffect(key1 = Unit) {
+                    delay(1_000)
+                    visibility = false
+                }
+                ConnectivityOnline(hide)
             }
+            ConnectionState.Unavailable -> ConnectivityOffline(hide)
         }
-        ConnectionState.Unavailable -> ConnectivityOffline()
     }
 }
 
 @Composable
-fun PresentConnectivityStatusComposable(text: String, backgroundColor: Color, statusImage: Int) {
+fun PresentConnectivityStatusComposable(
+    hide: () -> Unit,
+    text: String,
+    backgroundColor: Color,
+    statusImage: Int
+) {
     Box(Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .padding(5.dp)
-                .fillMaxWidth().background(backgroundColor, shape = RoundedCornerShape(7.dp)),
+                .fillMaxWidth()
+                .background(backgroundColor, shape = RoundedCornerShape(7.dp)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
                 painter = painterResource(id = statusImage),
                 contentDescription = "Network Status",
-                modifier = Modifier.padding(10.dp, 3.dp).size(30.dp)
+                modifier = Modifier
+                    .padding(10.dp, 3.dp)
+                    .size(25.dp)
             )
-            Text(text = text, color = Color.White, style = MovieAppTypography.body1, fontSize = 20.sp)
+            Text(
+                text = text,
+                color = Color.White,
+                style = MovieAppTypography.body1,
+                fontSize = 15.sp
+            )
         }
+        Image(
+            painter = painterResource(id = R.drawable.cancel_black),
+            contentDescription = "Network Status",
+            modifier = Modifier
+                .padding(20.dp, 3.dp)
+                .size(20.dp)
+                .clickable(onClickLabel = "Hide") { hide() }
+                .align(Alignment.CenterEnd)
+        )
     }
 }
 
 
-@Preview
 @Composable
-fun ConnectivityOnline() {
+fun ConnectivityOnline(hide: () -> Unit) {
     PresentConnectivityStatusComposable(
+        hide,
         "Online",
         Color(0xFF2ECC71),
         R.drawable.icons_cloud_checked_48px
     )
 }
 
-@Preview
 @Composable
-fun ConnectivityOffline() {
+fun ConnectivityOffline(hide: () -> Unit) {
     PresentConnectivityStatusComposable(
+        hide,
         "Offline",
         Color(0xFFEC7063),
         R.drawable.icons_cloud_cross_48px
     )
+}
+
+@Preview
+@Composable
+fun OnlinePreview() {
+    ConnectivityOnline { }
+}
+
+@Preview
+@Composable
+fun OfflinePreview() {
+    ConnectivityOffline { }
 }
 

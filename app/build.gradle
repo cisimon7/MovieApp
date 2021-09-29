@@ -1,3 +1,6 @@
+import com.example.movieapp.dep
+import com.example.movieapp.versions
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -48,7 +51,7 @@ android {
         viewBinding true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion versions.compose
         kotlinCompilerVersion '1.5.21'
     }
     packagingOptions {
@@ -60,72 +63,58 @@ android {
 
 dependencies {
 
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
+    implementation dep.coroutines.android
+    implementation dep.coroutines.core
 
-    // Room components
-    implementation "androidx.room:room-ktx:$room_version"
+    implementation dep.legacy_support
+
+    implementation dep.room.room_ktx
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt "androidx.room:room-compiler:$room_version"
-    /*implementation("androidx.room:room-paging:2.4.0-alpha04")*/
-    androidTestImplementation "androidx.room:room-testing:$room_version"
+    kapt dep.room.room_compiler
+    androidTestImplementation dep.room.room_test
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation dep.androidX.core_ktx
+    implementation dep.androidX.appcompat
 
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.compose.ui:ui-viewbinding:$compose_version"
+    implementation dep.androidX.compose.ui_util
+    implementation dep.androidX.compose.material
+    implementation dep.androidX.compose.tooling
+    implementation dep.androidX.compose.view_binding
+    androidTestImplementation dep.androidX.compose.ui_test
+    /*debugImplementation dep.androidX.compose.tooling*/
 
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation dep.coil
 
-    // Feature module Support
-    /*implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'*/
+    implementation dep.androidX.navigation.fragment
+    implementation dep.androidX.navigation.ui_ktx
+    implementation dep.androidX.navigation.compose
+    androidTestImplementation dep.androidX.navigation.test
 
-    // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$navigation_version"
+    implementation dep.androidX.paging.runtime
+    implementation dep.androidX.paging.compose
+    testImplementation dep.androidX.paging.common
 
-    // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:$navigation_version"
+    implementation dep.accompanist.insets
 
-    implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
+    implementation dep.material
 
-    // Paging
-    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
-    implementation("androidx.paging:paging-compose:1.0.0-alpha12")
-    /*implementation("androidx.paging:paging-common-ktx:$paging_version")*/
-    testImplementation("androidx.paging:paging-common-ktx:$paging_version")
+    implementation dep.koin.android
+    androidTestImplementation dep.koin.test
+    androidTestImplementation dep.koin.android_test
 
-    // Koin
-    implementation "io.insert-koin:koin-android:$koin_version"
-    androidTestImplementation "io.insert-koin:koin-test:$koin_version"
-    androidTestImplementation "io.insert-koin:koin-test-junit4:$koin_version"
-    testImplementation "io.insert-koin:koin-test:$koin_version"
-    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
+    implementation dep.androidX.lifecycle.runtime
+    implementation dep.androidX.activity.compose
 
-    implementation("io.coil-kt:coil-compose:$kt_coil")
+    implementation dep.kt_extended.serialization
+    implementation dep.kt_extended.date_time
 
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation dep.ktor_client.okhttp
+    implementation dep.ktor_client.logging
+    implementation dep.ktor_client.serializer
+    implementation dep.ktor_client.logback
+    androidTestImplementation dep.ktor_client.mock
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$ktx_serialization")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$ktx_datetime")
-
-    implementation "io.ktor:ktor-client-okhttp:$ktor_version"
-    implementation "io.ktor:ktor-client-logging:$ktor_version"
-    implementation "io.ktor:ktor-client-serialization:$ktor_version"
-    implementation "ch.qos.logback:logback-classic:$logback_version"
-    androidTestImplementation "io.ktor:ktor-client-mock:$ktor_version"
-
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    testImplementation dep.junit
+    androidTestImplementation dep.androidX.test.ext.junit
+    androidTestImplementation dep.androidX.test.espresso_core
 }

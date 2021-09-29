@@ -16,13 +16,12 @@ data class MovieAppColors(
     val ascent1: Color,
     val ascent2: Color
 ) {
-    /*listOf(Color(0xFF7AE2FF), Color(0xFFFFA07A), Color(0xFF2ECC71))*/
     val overlayBrush = Brush.linearGradient(
         listOf(primary1, primary2)
     )
 }
 
-val colorPalette1 = MovieAppColors(
+val customLightTheme = MovieAppColors(
     Color.White,
     Color(0xFFf1dca7),
     Color(0xFFf2e9e4),
@@ -32,7 +31,7 @@ val colorPalette1 = MovieAppColors(
     Color(0xFF822CDE)
 )
 
-val colorPalette2 = MovieAppColors(
+val customDarkTheme = MovieAppColors(
     Color.Black,
     Color(0xFF312f30),
     Color(0xFF435058),
@@ -42,7 +41,7 @@ val colorPalette2 = MovieAppColors(
     Color(0xFFffffff),
 )
 
-object MovieAppTheme {
+object MovieAppColorTheme {
     val colors: MovieAppColors
         @Composable get() = LocalMovieAppColors.current
 }

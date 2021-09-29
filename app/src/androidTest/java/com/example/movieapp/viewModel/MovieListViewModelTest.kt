@@ -5,42 +5,30 @@ import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.movieapp.di.appModule
-import com.example.movieapp.di.viewModelModule
 import com.example.movieapp.services.model.Movie
-import com.example.movieapp.services.model.sampleMovies
 import com.example.movieapp.services.repository.localDb.MovieRoomDatabase
-import com.example.movieapp.services.repository.QueryStringDSL
-import com.example.movieapp.services.repository.remoteApi.TmdbService
 import io.ktor.client.*
-import io.ktor.client.engine.mock.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
-import io.ktor.http.*
 import io.ktor.util.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
 import org.koin.test.inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
-class MainViewModelTest : KoinTest {
+class MovieListViewModelTest : KoinTest {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MovieListViewModel
 
     private val testDispatcher = TestCoroutineDispatcher()
     private val testScope = TestCoroutineScope(testDispatcher)

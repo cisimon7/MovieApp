@@ -5,21 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.movieapp.ui.cardComposables.ListOfMiniCards
-import com.example.movieapp.ui.modifierExtensions.GlassyBox
 import com.example.movieapp.ui.theme.*
-import com.example.movieapp.viewModel.MainViewModel
+import com.example.movieapp.viewModel.MovieListViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -27,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class HomeFragment : Fragment() {
 
     private lateinit var controller: NavController
-    private val sharedViewModel by sharedViewModel<MainViewModel>()
+    private val sharedViewModel by sharedViewModel<MovieListViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +41,7 @@ class HomeFragment : Fragment() {
 
         val addMoreOnScrollEndFun = {
             viewLifecycleOwner.lifecycleScope.launch {
-                /*delay(5_000)*/ /* Time to display Loader image */
+                delay(10_000) /* Time to display Loader image */
                 sharedViewModel.fetchLatestMoviesNextPage()
             }
         }
@@ -58,32 +52,11 @@ class HomeFragment : Fragment() {
         }
 
         setContent {
-            Column {
-
-                GlassyBox(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    0.7F,
-                    5.dp,
-                    MovieAppTheme.colors.primary2
-                ) {
-                    Text(
-                        text = "Popular Movies",
-                        modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp),
-                        textAlign = TextAlign.Center,
-                        style = MovieAppTypography.h5,
-                        fontWeight = FontWeight.Bold,
-                        color = MovieAppTheme.colors.secondary2
-                    )
-                }
-
-                ListOfMiniCards(
-                    sharedViewModel.movieList,
-                    addMoreOnScrollEndFun,
-                    viewDetailedMovieFun
-                )
-            }
+            MiniMovieCardListComposable(
+                sharedViewModel.movieList,
+                addMoreOnScrollEndFun,
+                viewDetailedMovieFun
+            )
         }
     }
 }

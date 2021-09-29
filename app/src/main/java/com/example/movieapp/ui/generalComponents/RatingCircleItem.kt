@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.cardComposables
+package com.example.movieapp.ui.generalComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,16 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.movieapp.ui.colorByRating
 import com.example.movieapp.ui.modifierExtensions.centreOffsetWithin
 import com.example.movieapp.ui.theme.MovieAppTypography
 
 @Composable
 fun RatingCircleItem(percentage: Float, modifier: Modifier = Modifier) {
 
-    Box(modifier = modifier
-        .size(50.dp)
-        .background(Color.Transparent)
-        .drawWithContent {
+    Box(modifier.size(50.dp).background(Color.Transparent).drawWithContent {
 
             val radius = center.x
             val thickness = 0.2F * radius
@@ -74,20 +72,6 @@ fun RatingCircleItem(percentage: Float, modifier: Modifier = Modifier) {
                 )
             }
         }
-    )
-}
-
-fun colorByRating(percentage: Float) = when {
-    percentage <= 33 -> Color.Red
-    percentage > 33 && percentage <= 66 -> Color.Yellow
-    else -> Color.Green
-}
-
-fun Color.darken(ratio: Float): Color {
-    return this.copy(
-        red = red * (1 - ratio),
-        green = green * (1 - ratio),
-        blue = blue * (1 - ratio)
     )
 }
 

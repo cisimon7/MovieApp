@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,11 +11,10 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import com.example.movieapp.ui.cardComposables.RatingCircleItem
-import com.example.movieapp.ui.theme.MovieAppTypography
+import com.example.movieapp.ui.generalComponents.RatingCircleItem
 
 @Composable
-fun MiniCardLayout(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+fun MiniMovieCardStructure(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
 
     Layout(content = content, modifier = modifier) { measurables, constraints ->
 
@@ -48,7 +46,7 @@ fun MiniCardLayout(modifier: Modifier = Modifier, content: @Composable () -> Uni
 @Composable
 fun ShowMiniCardLayout() {
     Card(Modifier, backgroundColor = Color.Transparent) {
-        MiniCardLayout(Modifier) {
+        MiniMovieCardStructure(Modifier) {
             Box(
                 Modifier
                     .size(100.dp)

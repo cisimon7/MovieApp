@@ -1,4 +1,4 @@
-package com.example.movieapp.ui
+package com.example.movieapp.ui.scaffoldComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,23 +9,22 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.ui.modifierExtensions.glassiness
-import com.example.movieapp.ui.theme.MovieAppTheme
+import com.example.movieapp.ui.theme.MovieAppColorTheme
 import com.example.movieapp.ui.theme.MovieAppTypography
 
 @Composable
-fun MovieAppBar(onNavIconPressed: () -> Unit = { }) {
-    Column(
-        Modifier
-    ) {
+fun MovieAppBar(onNavIconPressed: () -> Unit = { }, title: String) {
+    Column(Modifier) {
         TopAppBar(
-            modifier = Modifier.glassiness(0.8F),
+            modifier = Modifier .glassiness(murkiness = 0.7F, glassColor=MovieAppColorTheme.colors.primary2),
             backgroundColor = Color.Transparent,
             elevation = 0.dp,
             contentColor = MaterialTheme.colors.onSurface,
@@ -38,9 +37,12 @@ fun MovieAppBar(onNavIconPressed: () -> Unit = { }) {
             },
             title = {
                 Text(
-                    text = "Section Title",
+                    text = title,
+                    modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp),
+                    textAlign = TextAlign.Center,
                     style = MovieAppTypography.h5,
-                    color = MovieAppTheme.colors.secondary1
+                    fontWeight = FontWeight.Bold,
+                    color = MovieAppColorTheme.colors.secondary2
                 )
             },
             navigationIcon = {

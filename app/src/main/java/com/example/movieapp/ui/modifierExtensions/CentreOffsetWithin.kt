@@ -10,6 +10,9 @@ import androidx.compose.ui.unit.Constraints
 fun Modifier.centreOffsetWithin(x: Float = 0.1F, y: Float = 0.1F): Modifier =
     this.then(CentreOffsetWithin(x, y))
 
+/**
+ * Displace the given container within its parent container by a ratio of the width and height of
+ * the parent */
 class CentreOffsetWithin(private val x: Float, private val y: Float) : LayoutModifier {
     override fun MeasureScope.measure(
         measurable: Measurable,
@@ -19,11 +22,13 @@ class CentreOffsetWithin(private val x: Float, private val y: Float) : LayoutMod
         val (parentWidth, parentHeight) = with(constraints) { maxWidth to maxHeight }
         val placeable = measurable.measure(constraints)
 
-        return layout(parentWidth, parentHeight) {
-            placeable.place(
-                (x * parentWidth - 0.5 * placeable.width).toInt().coerceIn(0..(parentWidth - placeable.width)),
-                (y * parentHeight - 0.5 * placeable.height).toInt().coerceIn(0..(parentHeight - placeable.height))
-            )
+        val placeableWidth = (x * parentWidth - 0.5 * placeable.width).toInt()
+            .coerceIn(0..(parentWidth - placeable.width))
+        val placeableHeight = (y * parentHeight - 0.5 * placeable.height).toInt()
+            .coerceIn(0..(parentHeight - placeable.height))
+
+        return layout(0, 0) {
+             placeable.place(placeableWidth, placeableHeight)
         }
     }
 }

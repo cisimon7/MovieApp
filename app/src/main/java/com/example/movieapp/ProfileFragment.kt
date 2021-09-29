@@ -31,7 +31,7 @@ class ProfileFragment : Fragment() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Profile Fragment", style = MovieAppTypography.h4)
+                Text(text = "Not yet implemented", style = MovieAppTypography.h4)
             }
         }
     }

@@ -32,10 +32,7 @@ class TmdbRemoteMediator(
         }
     }
 
-    override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, Movie>
-    ): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
 
         val loadKey = when (loadType) {
             LoadType.REFRESH -> 1

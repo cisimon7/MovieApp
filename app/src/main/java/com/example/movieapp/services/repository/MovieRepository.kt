@@ -30,10 +30,9 @@ class MovieRepository(
             }.onFailure { error ->
                 Log.e("MovieAppErrorMessage", "Error: ${error.message ?: "error"}")
             }
+
         /* Database is the single source of truth */
-        return movieRoomDb.movieDao().getMovieDetailsById(movieId).let { movie ->
-            movie
-        }
+        return movieRoomDb.movieDao().getMovieDetailsById(movieId)
     }
 
     @OptIn(ExperimentalPagingApi::class)

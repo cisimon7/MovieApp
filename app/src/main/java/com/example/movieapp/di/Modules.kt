@@ -2,16 +2,15 @@ package com.example.movieapp.di
 
 import com.example.movieapp.services.repository.MovieRepository
 import com.example.movieapp.services.repository.localDb.MovieRoomDatabase
-import com.example.movieapp.services.repository.localDb.TmdbRemoteMediator
 import com.example.movieapp.services.repository.remoteApi.TmdbService
 import com.example.movieapp.services.repository.remoteApi.client
 import com.example.movieapp.services.repository.remoteApi.jsonFormatter
-import com.example.movieapp.viewModel.MainViewModel
+import com.example.movieapp.viewModel.MovieListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { MainViewModel(get()) }
+    viewModel { MovieListViewModel(get()) }
 }
 
 val appModule = module {
