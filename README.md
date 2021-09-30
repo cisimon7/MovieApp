@@ -13,7 +13,7 @@
 ### Functionalities yet to be added
 * Set reminder for movie
 
-Libraries Used:
+## Libraries Used:
 * Jetpack Compose for UI design
 * Jetpack Navigation
 * Ktor Client for remote api call
