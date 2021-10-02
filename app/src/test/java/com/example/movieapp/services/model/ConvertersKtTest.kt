@@ -1,6 +1,6 @@
 package com.example.movieapp.services.model
 
-import com.example.movieapp.timeLeftFormatter
+import com.example.movieapp.ui.fragmentReminderList.timeLeftFormatter
 import junit.framework.Assert.assertEquals
 import kotlinx.datetime.*
 import org.junit.Test
@@ -27,6 +27,18 @@ class ConvertersKtTest {
         println(stringList)
         println(listString.toString())
         assertEquals(genres, listString)
+    }
+
+    @Test
+    fun localDateTimeTest() {
+        val tz = TimeZone.currentSystemDefault()
+        val now = Clock.System.now()
+        val dateTimeFromString = converters.dateTimeToString(now.toLocalDateTime(tz))
+
+        println(now)
+        println(dateTimeFromString)
+
+        /*assertEquals(now, converters.stringToDateTime(dateTimeFromString))*/
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.example.movieapp.services.model
 
 import androidx.room.TypeConverter
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
@@ -39,6 +40,27 @@ class Converters {
         return when (date.isNullOrEmpty()) {
             true -> null
             false -> stringToLocalDate(date)
+        }
+    }
+
+    @TypeConverter
+    fun dateTimeToString(dateTime: LocalDateTime?): String? {
+        return dateTime?.let { with(dateTime) {
+            val padStart = monthNumber.toString().padStart(2, '0')
+            "$year-$padStart-$dayOfMonth-$hour-$minute-$second"
+        } }
+    }
+
+    @TypeConverter
+    fun stringToDateTime(dateTime: String?): LocalDateTime? {
+        return when (dateTime.isNullOrEmpty()) {
+            true -> null
+            false ->  {
+                val dateTimeToList = dateTime.split("-").map { it.toInt() }
+                with(dateTimeToList) {
+                    LocalDateTime(get(0), get(1), get(2), get(3), get(4), get(5))
+                }
+            }
         }
     }
 

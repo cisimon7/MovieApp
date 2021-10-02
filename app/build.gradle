@@ -26,12 +26,13 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += [
-                        "room.schemaLocation": "$projectDir/schemas".toString()
+                        "room.schemaLocation": "$projectDir/schemas".toString(),
+                        "room.incremental": "true",
+                        "room.expandProjection": "true"
                 ]
             }
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -76,11 +77,18 @@ dependencies {
     implementation dep.androidX.core_ktx
     implementation dep.androidX.appcompat
 
-    implementation dep.androidX.compose.ui_util
     implementation dep.androidX.compose.material
+    implementation dep.androidX.compose.material_icons_core
+    implementation dep.androidX.compose.material_icons_extended
+
+    implementation dep.androidX.compose.runtime
     implementation dep.androidX.compose.tooling
+    implementation dep.androidX.compose.ui_util
     implementation dep.androidX.compose.view_binding
+
+    androidTestImplementation dep.androidX.compose.test
     androidTestImplementation dep.androidX.compose.ui_test
+    /*androidTestImplementation dep.androidX.compose.ui_ui*/
     /*debugImplementation dep.androidX.compose.tooling*/
 
     implementation dep.coil

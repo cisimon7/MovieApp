@@ -15,7 +15,7 @@ object versions {
     const val ktx_datetime = "0.2.1"
     const val ktx_serialization = "1.2.2"
     const val coil = "1.3.2"
-    const val room = "2.3.0"
+    const val room = "2.4.0-alpha01"
     const val paging = "3.0.0"
 }
 
@@ -46,15 +46,19 @@ object dep {
 
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val layout = "androidx.compose.foundation:foundation-layout:$version"
+
             const val material = "androidx.compose.material:material:$version"
+            const val material_icons_core = "androidx.compose.material:material-icons-core:$version"
             const val material_icons_extended = "androidx.compose.material:material-icons-extended:$version"
+
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
+            const val ui_util = "androidx.compose.ui:ui-util:$version"
+            /*const val ui_ui = "androidx.compose.ui:ui:$version"*/
+            const val view_binding = "androidx.compose.ui:ui-viewbinding:$version"
+
             const val test = "androidx.compose.ui:ui-test:$version"
             const val ui_test = "androidx.compose.ui:ui-test-junit4:$version"
-            const val ui_util = "androidx.compose.ui:ui-util:$version"
-            const val view_binding = "androidx.compose.ui:ui-viewbinding:$version"
-            /*val = "androidx.compose.ui:ui:$compose"*/
         }
 
         object navigation {

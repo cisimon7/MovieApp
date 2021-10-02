@@ -3,7 +3,7 @@ package com.example.movieapp.services.repository.localDb
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.movieapp.services.model.Movie
-import com.example.movieapp.services.model.MovieAndImages
+import com.example.movieapp.services.model.MovieWithReminder
 import com.example.movieapp.services.repository.QueryStringDSL
 import kotlinx.coroutines.flow.Flow
 
@@ -36,9 +36,4 @@ interface MovieDao {
 
     @Query("SELECT * FROM movie_table")
     fun discoverMovies(): PagingSource<Int, Movie>
-
-    @Transaction
-    @Query("SELECT * FROM movie_table WHERE id=:movieId")
-    fun getMovieAndImageById(movieId: Int): MovieAndImages
-
 }

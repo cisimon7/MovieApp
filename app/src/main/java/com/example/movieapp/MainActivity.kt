@@ -19,14 +19,14 @@ import com.example.movieapp.databinding.ContentMainBinding
 import com.example.movieapp.databinding.SplashScreenBinding
 import com.example.movieapp.services.ConnectionState
 import com.example.movieapp.services.observeConnectivityAsFlow
-import com.example.movieapp.ui.generalComponents.ConnectivityComposable
-import com.example.movieapp.ui.scaffoldComponents.MovieAppBar
-import com.example.movieapp.ui.scaffoldComponents.MovieAppDrawer
-import com.example.movieapp.ui.scaffoldComponents.MovieAppScaffold
+import com.example.movieapp.ui.componentsGeneral.ConnectivityComposable
+import com.example.movieapp.ui.componentsScaffold.MovieAppBar
+import com.example.movieapp.ui.componentsScaffold.MovieAppDrawer
+import com.example.movieapp.ui.componentsScaffold.MovieAppScaffold
 import com.example.movieapp.ui.theme.MovieAppColors
 import com.example.movieapp.ui.theme.ProvideMovieAppColors
 import com.example.movieapp.ui.theme.customDarkTheme
-import com.example.movieapp.viewModel.MovieListViewModel
+import com.example.movieapp.viewModel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -36,7 +36,7 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by inject<MovieListViewModel>()
+    private val viewModel by inject<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,14 +82,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            val navToMovieList: () -> Unit = {
-                findNavController().navigate(R.id.action_global_movieListFragment)
-                title = "Saved Movies"
-                scope.launch {
-                    scaffoldState.drawerState.close()
-                }
-            }
-
             val navToReminderList: () -> Unit = {
                 findNavController().navigate(R.id.action_global_reminderFragment)
                 title = "Movie Reminders"
@@ -109,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                 NavHost(navController = navController, startDestination="SplashScreen") {
                     composable(route = "SplashScreen") {
                         LaunchedEffect(key1 = Unit) {
-                            delay(10_000)
+                            delay(1_500)
                             navController.navigate("MainScreen")
                         }
                         AndroidViewBinding(factory = SplashScreenBinding::inflate)
@@ -118,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                         MovieAppScaffold(
                             scaffoldState,
                             { MovieAppBar(onNavIconPressed, title) },
-                            { MovieAppDrawer(navToHome, navToProfile, navToMovieList, navToReminderList, changeThemeColorTo) },
+                            { MovieAppDrawer(navToHome, navToProfile, navToReminderList, changeThemeColorTo) },
                             content = {
                                 Box(Modifier.fillMaxSize()) {
                                     AndroidViewBinding(factory = ContentMainBinding::inflate)

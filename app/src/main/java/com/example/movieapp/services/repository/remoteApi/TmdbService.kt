@@ -93,7 +93,7 @@ abstract class TmdbService(
     }
 
     companion object {
-        var items_per_page = 61
+        var items_per_page = 15
     }
 }
 

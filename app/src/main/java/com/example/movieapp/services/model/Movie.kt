@@ -32,27 +32,21 @@ data class Movie(
     }
 }
 
-@Entity(
-    tableName = "images_table",
-    primaryKeys = ["cover_url", "backdrop_url"]
-)
-data class MovieImages(
-    val cover_url: String,
-    val backdrop_url: String,
-    val cover_bitmap: String,
-    val backdrop_bitmap: String
-)
-
-data class MovieAndImages(
-    @Embedded val movie: Movie,
-    @Relation(parentColumn = "cover_url", entityColumn = "cover_url") val movieImages: MovieImages
+@Entity(tableName = "reminder_table")
+@Serializable
+data class Reminder(
+    @PrimaryKey val movieId: Int,
+    val dateTime: LocalDateTime
 )
 
 
-/*
-* I could use just movie id and reminder date to create a new table to save space and avoid
-* duplication*/
+@Serializable
 data class MovieWithReminder(
-    val movie: Movie,
-    val reminderDate: LocalDateTime
+    @Embedded val reminder: Reminder,
+    @Relation(
+        parentColumn = "movieId",
+        entity = Movie::class,
+        entityColumn = "id"
+    )
+    val movie: Movie
 )

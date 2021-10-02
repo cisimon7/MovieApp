@@ -14,17 +14,13 @@
         app:destination="@id/homeFragment"/>
 
     <action
-        android:id="@+id/action_global_movieListFragment"
-        app:destination="@id/movieListFragment"/>
-
-    <action
         android:id="@+id/action_global_reminderFragment"
         app:destination="@id/reminderFragment"/>
 
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.movieapp.ui.homeFragment.HomeFragment"
+        android:name="com.example.movieapp.ui.fragmentMovieList.HomeFragment"
         android:label="fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment"
@@ -39,7 +35,7 @@
 
     <fragment
         android:id="@+id/detailedCardFragment"
-        android:name="com.example.movieapp.ui.detailedCardFragment.DetailedCardFragment"
+        android:name="com.example.movieapp.ui.fragmentDetailedCard.DetailedCardFragment"
         android:label="fragment_details">
         <action
             android:id="@+id/action_detailedCardFragment_to_homeFragment"
@@ -58,18 +54,16 @@
         android:label="ProfileFragment" />
 
     <fragment
-        android:id="@+id/movieListFragment"
-        android:name="com.example.movieapp.MovieListFragment"
-        android:label="fragment_movie_list"
-        tools:layout="@layout/fragment_movie_list" >
-        <action
-            android:id="@+id/action_movieListFragment_to_detailedCardFragment"
-            app:destination="@id/detailedCardFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/reminderFragment"
-        android:name="com.example.movieapp.ReminderFragment"
+        android:name="com.example.movieapp.ui.fragmentReminderList.ReminderFragment"
         android:label="fragment_reminder"
-        tools:layout="@layout/fragment_reminder" />
+        tools:layout="@layout/fragment_reminder" >
+        <action
+            android:id="@+id/action_reminderFragment_to_detailedCardFragment"
+            app:destination="@id/detailedCardFragment" >
+            <argument
+                android:name="movieId"
+                app:argType="integer" />
+        </action>
+    </fragment>
 </navigation>

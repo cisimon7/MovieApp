@@ -5,25 +5,25 @@ import com.example.movieapp.services.repository.localDb.MovieRoomDatabase
 import com.example.movieapp.services.repository.remoteApi.TmdbService
 import com.example.movieapp.services.repository.remoteApi.client
 import com.example.movieapp.services.repository.remoteApi.jsonFormatter
-import com.example.movieapp.viewModel.MovieListViewModel
+import com.example.movieapp.viewModel.MainViewModel
+import com.example.movieapp.viewModel.ReminderListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { MovieListViewModel(get()) }
+    viewModel { MainViewModel(get()) }
+    viewModel { ReminderListViewModel(get()) }
 }
 
 val appModule = module {
 
     single<TmdbService> { object : TmdbService(key, jsonFormatter, get()) {} }
 
-    single { client }
+    factory { client }
 
     single { get<MovieRoomDatabase>().movieDao() }
 
-    single { get<MovieRoomDatabase>().imagesDao() }
-
-    single { MovieRepository(get(), get()) }
+    factory { MovieRepository(get(), get()) }
 
 }
 
