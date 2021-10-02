@@ -23,6 +23,8 @@
 * Android Room for caching
 * Android paging for paging data
 * Kotlin Coroutines for data observing
+* Kotlinx serilization
+* Kotlinx datetime
 
 ### Demo of App so far
 https://user-images.githubusercontent.com/52794824/135713606-fee35d9f-5944-47d8-83d3-4daa73e70f5d.mp4
