@@ -22,11 +22,4 @@
 * Android paging for paging data
 * Kotlin Coroutines for data observing
 
-
-
-
-![MovieAppImage](https://user-images.githubusercontent.com/52794824/135713456-f851864d-5df4-47cc-a89b-d8c5a9781f55.jpg)
-
-
-
 https://user-images.githubusercontent.com/52794824/135713606-fee35d9f-5944-47d8-83d3-4daa73e70f5d.mp4
